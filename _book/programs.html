@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">NetStream?</span></a>
+ <span class="menu-text">Hello</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -136,7 +136,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Bldgrds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bldgrds</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">bldgrds</span></span></a>
   </div>
 </li>
       </ul>
@@ -153,7 +153,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./CreateStreamLayer.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Create a stream layer with bldgrds</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Build a stream layer</span></span></a>
   </div>
 </li>
       </ul>
@@ -200,14 +200,21 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The library includes the following programs (in alphabetical order):</p>
+<p>The library includes the following primary programs (in alphabetical order):</p>
 <ul>
 <li><p><u>addData</u>: adds requested attributes to an existing stream-layer shapefile created previously with netrace.</p></li>
+<li><p><u>barrier</u>: identifies physical barriers to fish passage; requires a channel-node stream layer created from a high-resolution (lidar) DEM</p></li>
 <li><p><u>bldgrds</u>: Builds a stream layer as a linked-node list from a DEM, stored in a binary data file. Auxiliary outputs include flow-accumulation and flow-direction rasters. The binary stream-layer file is read by all subsequent programs that use the stream layer.</p></li>
+<li><p><u>closedDepressions</u>: delineate all closed depressions within a DEM; optionally filter by size.</p></li>
+<li><p><u>DEV</u>: calculate topographic position index values over specified length scales. Includes local relief and deviation from mean elevation (DEV).</p></li>
 <li><p><u>makeGrids</u>: builds rasters of elevation derivatives.</p></li>
+<li><p><u>merge</u>: merge high- and low-resolution DEMs into a single DEM. DEMs are warped over a specified length scale to prevent discontinuities at the seams.</p></li>
+<li><p><u>mergeToHigh</u>: merge two high-resolution DEMs, ensuring a smooth transition from one to the other.</p></li>
 <li><p><u>netrace</u>: reads the binary stream-layer file and builds point and/or polyline shapefiles readable by any GIS. Calculates requested attributes for each record.</p></li>
 <li><p><u>valleyFloor</u>: builds a binary data file giving elevation above the channel. This data file can be used to determine valley widths at specified elevations above a channel and to create raster files showing elevation relative to the channel (i.e., “height-above-channel” rasters).</p></li>
-<li></li>
+<li><p><u>waterMaskByTopo</u>: create a mask delineating open water using infrared band imagery and a DEM. Used by bldgrds when constructing a stream layer.</p></li>
+<li><p><u>watershed</u>: delineates the contributing area to specified points on the channel-node stream layer. Used, for example, to create a nested hierarchy of basins (e.g., Hydrologic Unit Code basins).</p></li>
+<li><p>more to come</p></li>
 <li></li>
 </ul>
 

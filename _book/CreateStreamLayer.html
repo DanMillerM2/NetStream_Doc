@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">NetStream?</span></a>
+ <span class="menu-text">Hello</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -255,6 +255,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="4.2" class="anchored" data-anchor-id="linked-node-data-structure"><span class="header-section-number">4.2</span> Linked node data structure</h2>
 <p>The channel network traced by bldgrds is represented using a <a href="https://en.wikipedia.org/wiki/Linked_data_structure">linked-node data structure</a>. A channel node is created for each DEM grid point along the channel flow path. Each channel node is connected to one or more upstream nodes and to one downstream node. (The data structure can accommodate multiple downstream nodes, but I haven’t fully implemented that yet. We need it to route through anastomosing channel networks, but I’m still working on efficient and robust ways to trace through networks with multiple loops). Each node has an associated set of attributes. This set may include such attributes as elevation, contributing area, channel geometry, channel gradient, and a variety of others available through instructions specified in the input files to the programs. Each node is associated with a DEM grid point, but node locations may be displaced from the grid point to accommodate smooth flow paths.&nbsp;</p>
 <p>Bldgrds builds a binary data file that stores the channel-node list that specifies the node locations and the node-to-node connections. Any subsequent program that uses the traced channel network reads this file to construct the channel network. The file is named nodeNet_ID.dat, where “ID” is a text string used to identify a dataset.&nbsp;</p>
+<p>insert figure</p>
 
 
 </section>
