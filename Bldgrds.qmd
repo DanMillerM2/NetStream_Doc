@@ -1,0 +1,9 @@
+# bldgrds {sec-bldgrds}
+
+Bldgrds creates a digital representation of a channel network; a "stream layer" in GIS terminology. The steps for doing that are described in @sec-buildStreamLayer. 
+
+## Input data files
+
+## Output data files
+
+## Keyword: arguments

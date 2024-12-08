@@ -1,0 +1,31 @@
+# Programs
+
+The library includes the following primary programs (in alphabetical order):
+
+-   [addData]{.underline}: adds requested attributes to an existing stream-layer shapefile created previously with netrace.
+
+-   [barrier]{.underline}: identifies physical barriers to fish passage; requires a channel-node stream layer created from a high-resolution (lidar) DEM
+
+-   [bldgrds]{.underline}: Builds a stream layer as a linked-node list from a DEM, stored in a binary data file. Auxiliary outputs include flow-accumulation and flow-direction rasters. The binary stream-layer file is read by all subsequent programs that use the stream layer.
+
+-   [closedDepressions]{.underline}: delineate all closed depressions within a DEM; optionally filter by size.
+
+-   [DEV]{.underline}: calculate topographic position index values over specified length scales. Includes local relief and deviation from mean elevation (DEV).
+
+-   [makeGrids]{.underline}: builds rasters of elevation derivatives.
+
+-   [merge]{.underline}: merge high- and low-resolution DEMs into a single DEM. DEMs are warped over a specified length scale to prevent discontinuities at the seams.
+
+-   [mergeToHigh]{.underline}: merge two high-resolution DEMs, ensuring a smooth transition from one to the other.
+
+-   [netrace]{.underline}: reads the binary stream-layer file and builds point and/or polyline shapefiles readable by any GIS. Calculates requested attributes for each record.
+
+-   [valleyFloor]{.underline}: builds a binary data file giving elevation above the channel. This data file can be used to determine valley widths at specified elevations above a channel and to create raster files showing elevation relative to the channel (i.e., "height-above-channel" rasters).
+
+-   [waterMaskByTopo]{.underline}: create a mask delineating open water using infrared band imagery and a DEM. Used by bldgrds when constructing a stream layer.
+
+-   [watershed]{.underline}: delineates the contributing area to specified points on the channel-node stream layer. Used, for example, to create a nested hierarchy of basins (e.g., Hydrologic Unit Code basins).
+
+-   
+
+-   

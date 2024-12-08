@@ -1,0 +1,36 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "NetStream: Programs for watershed analyses"
+  author: "Daniel Miller"
+  date: "12/6/2024"
+  
+  page-footer:
+    right: \
+      This book was created with <a href="https://quarto.org/">Quarto</a>.
+      
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - part: programs.qmd
+      chapters:
+      - InputFile.qmd
+      - Bldgrds.qmd
+    - part: "Tasks"
+      chapters:
+      - CreateStreamLayer.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
