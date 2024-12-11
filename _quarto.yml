@@ -14,10 +14,13 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
+    - prerequisites.qmd
     - part: programs.qmd
       chapters:
-      - InputFile.qmd
       - Bldgrds.qmd
+    - part: "Data-field options"
+      chapters:
+      - attributeLists.qmd
     - part: "Tasks"
       chapters:
       - CreateStreamLayer.qmd

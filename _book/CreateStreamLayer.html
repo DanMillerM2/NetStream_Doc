@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Build a stream layer – NetStream: Programs for watershed analyses</title>
+<title>3&nbsp; Build a stream layer – NetStream: Programs for watershed analyses</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./summary.html" rel="next">
-<link href="./Bldgrds.html" rel="prev">
+<link href="./attributeLists.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -81,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./CreateStreamLayer.html">Tasks</a></li><li class="breadcrumb-item"><a href="./CreateStreamLayer.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Build a stream layer</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./CreateStreamLayer.html">Tasks</a></li><li class="breadcrumb-item"><a href="./CreateStreamLayer.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Build a stream layer</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -115,7 +115,13 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -129,14 +135,14 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./InputFile.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Input Files</span></span></a>
+  <a href="./Bldgrds.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">bldgrds</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Bldgrds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">bldgrds</span></span></a>
+  <a href="./attributeLists.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Attribute Lists</span></span></a>
   </div>
 </li>
       </ul>
@@ -153,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./CreateStreamLayer.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Build a stream layer</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Build a stream layer</span></span></a>
   </div>
 </li>
       </ul>
@@ -161,7 +167,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -180,17 +186,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#tasks" id="toc-tasks" class="nav-link active" data-scroll-target="#tasks"><span class="header-section-number">4.1</span> Tasks</a></li>
-  <li><a href="#linked-node-data-structure" id="toc-linked-node-data-structure" class="nav-link" data-scroll-target="#linked-node-data-structure"><span class="header-section-number">4.2</span> Linked node data structure</a></li>
+  <li><a href="#tasks" id="toc-tasks" class="nav-link active" data-scroll-target="#tasks"><span class="header-section-number">3.1</span> Tasks</a></li>
+  <li><a href="#linked-node-data-structure" id="toc-linked-node-data-structure" class="nav-link" data-scroll-target="#linked-node-data-structure"><span class="header-section-number">3.2</span> Linked node data structure</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./CreateStreamLayer.html">Tasks</a></li><li class="breadcrumb-item"><a href="./CreateStreamLayer.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Build a stream layer</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./CreateStreamLayer.html">Tasks</a></li><li class="breadcrumb-item"><a href="./CreateStreamLayer.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Build a stream layer</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-buildStreamLayer" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Build a stream layer</span></span></h1>
+<h1 class="title"><span id="sec-buildStreamLayer" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Build a stream layer</span></span></h1>
 </div>
 
 
@@ -207,8 +213,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="tasks" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="tasks"><span class="header-section-number">4.1</span> Tasks</h2>
+<section id="tasks" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="tasks"><span class="header-section-number">3.1</span> Tasks</h2>
 <p>It seems straightforward: define a flow direction for each DEM cell, iteratively trace flow lines downstream summing cell area as we go to create a flow accumulation raster, set a flow threshold, and voila, a stream layer. That’s basically it, but there are complications. The first two items below discuss issues that are hardwired into bldgrds. Everything else has user-defined options, although default values are built in for most.&nbsp;</p>
 <ol type="1">
 <li><p>Flow direction from a DEM cell is not uniquely defined. Each cell has 8 adjacent cells. Depending on the shape of the ground surface interpolated from the 9 elevation values at the midpoints of the cells, each adjacent cell may contribute all, some portion, or none of its area to the central cell and the central cell may contribute all, some portion, or none of its area (and the accumulated area of the upslope cells that flows into it) to each of the adjacent cells. The simplest strategy is to have all flow from the central cell go to one of the 8 adjacent cells. This is the “D-8” flow-direction algorithm <a href="https://www.zotero.org/google-docs/?VqinZF">(Jenson and Domingue, 1988)</a>. It provides a poor estimate of contributing area to a cell that is biased by the 8 flow-direction options. One must also decide which of the 8 adjacent cells to direct flow to, and there are a variety of strategies for that. When D-8 flow paths are needed, we use the D8-LTD algorithm <a href="https://www.zotero.org/google-docs/?fMB1aB">(Orlandini et al., 2003)</a>, which corrects for the directional bias. A variety of flow-direction algorithms have been developed that accommodate flow in any direction and can direct flow to multiple downslope adjacent cells <a href="https://www.zotero.org/google-docs/?hUpxCo">(Wilson et al., 2008)</a> and thus allow for flow dispersion. We use the D-infinity algorithm <a href="https://www.zotero.org/google-docs/?aqvkd0">(Tarboton, 1997)</a>, which allows flow into one or two adjacent cells. Flow accumulation is then calculated using the D-infinity flow directions, until the criteria for channel initiation are met. Downslope of that point, we use D-8 to prevent flow dispersion out of the channel.</p></li>
@@ -251,8 +257,8 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Iterative correction of flow diversions.</p></li>
 </ul>
 </section>
-<section id="linked-node-data-structure" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="linked-node-data-structure"><span class="header-section-number">4.2</span> Linked node data structure</h2>
+<section id="linked-node-data-structure" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="linked-node-data-structure"><span class="header-section-number">3.2</span> Linked node data structure</h2>
 <p>The channel network traced by bldgrds is represented using a <a href="https://en.wikipedia.org/wiki/Linked_data_structure">linked-node data structure</a>. A channel node is created for each DEM grid point along the channel flow path. Each channel node is connected to one or more upstream nodes and to one downstream node. (The data structure can accommodate multiple downstream nodes, but I haven’t fully implemented that yet. We need it to route through anastomosing channel networks, but I’m still working on efficient and robust ways to trace through networks with multiple loops). Each node has an associated set of attributes. This set may include such attributes as elevation, contributing area, channel geometry, channel gradient, and a variety of others available through instructions specified in the input files to the programs. Each node is associated with a DEM grid point, but node locations may be displaced from the grid point to accommodate smooth flow paths.&nbsp;</p>
 <p>Bldgrds builds a binary data file that stores the channel-node list that specifies the node locations and the node-to-node connections. Any subsequent program that uses the traced channel network reads this file to construct the channel network. The file is named nodeNet_ID.dat, where “ID” is a text string used to identify a dataset.&nbsp;</p>
 <p>insert figure</p>
@@ -680,13 +686,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Bldgrds.html" class="pagination-link" aria-label="bldgrds">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">bldgrds</span></span>
+      <a href="./attributeLists.html" class="pagination-link" aria-label="Attribute Lists">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Attribute Lists</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./summary.html" class="pagination-link" aria-label="Summary">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
