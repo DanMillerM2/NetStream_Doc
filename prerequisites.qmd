@@ -1,0 +1,101 @@
+# Prerequisites {.unnumbered}
+
+## Input Files {.unnumbered}
+
+Programs in the NetStream suite all use ASCII (text) input files with a similar file structure and format. The input files specify any input and output file names and locations, specify the tasks to be performed, and provide any parameter values needed to perform those tasks.
+
+### Keywords and arguments
+
+Input files use a "keyword: argument(s)" format. The keyword indicates either what the following arguments are for or indicates a specific task or program option. Entries are identified as a keyword by the following colon (:); any needed arguments follow the keyword; multiple arguments are separated by commas; and if an argument specifies a numerical or logical parameter name, its value is specified after an equal sign. A pound sign (#) indicates a comment; any unrecognized entries are ignored (so if you misspell a keyword, it will be ignored).
+
+Here is an example *keyword: argument* pair:
+
+> DEM: c:\\data\\Snoqualmie\\elev_snoqualmie
+
+This is an input line used by many of the programs. It specifies the DEM file to use. The keyword "DEM" is indicated by the colon; the following argument specifies the location (c:\\data\\Snoqualmie\\) and name (elev_snoqualmie) of the DEM file.
+
+::: {.callout-note appearance="simple"}
+## Several things to note about DEM files
+
+1.  NetStream programs use a default file name "elev_ID" for DEMs. The "ID" indicates the dataset name. The programs strip off the ID when the "elev_ID" format is used. Subsequent output files that use default names then get the same ID suffix.
+2.  The full path is required when specifying a DEM file. The programs strip off the path when reading this input line. Any other DEM-related files required by the program are then looked for in the folder specified by the path.
+3.  NetStream programs can only read three raster-file formats:
+    -   binary floating point (.flt)
+    -   tiff, but only uncompressed or those with LZW compression
+    -   BIL single band (.bil)
+4.  If no extension is included, the file is assumed to be .flt. If an .flt file with that name cannot be found, the program will look for a file with .tif extension.
+:::
+
+Here's an example with multiple arguments:
+
+> OUTPUT NODE POINT SHAPEFILE: c:\\data\\Snoqualmie\\node_test, SPLITS = 4
+
+Here the keyword, or in this case, the keyword phrase (OUTPUT NODE POINT SHAPEFILE) specifies an output file to create. The first argument (c:\\data\\Snoqualmie\\node_test) specifies the location and name of the shapefile to create. The second argument (SPLITS = 4) specifies that the output should be split into four separate shapefiles (this is needed because, for large datasets, ArcGIS can only read shapefile attribute tables of two Gbytes or less).
+
+::: callout-important
+Keywords and arguments are case sensitive.
+:::
+
+Each program has a specific set of keyword: argument pairs that it recognizes. I'll describe these in the chapters describing the programs.
+
+### Attribute lists
+
+For programs that generate output GIS vector files, either point or polyline shapefiles, the data fields to include in the attribute table are specified with an attribute list. An attribute list is initialized with the "ATTRIBUTE LIST" keyword; the "END LIST" keyword flags the end of the list. Here's an example:
+
+> #===================================\
+> ATTRIBUTE LIST:\
+> #-----------------------------------------------------------\
+> ID:\
+> LENGTH:\
+> CONTRIBUTING AREA: OUTPUT FIELD = AREA_SQKM\
+> MEAN ANNUAL PRECIP: FILE = c:\work\data\wrangell\precip\_utm8n, OUTPUT FIELD = MNANPRC_M, UNITS = mm, REPLACE\
+> VALLEY WIDTH: CHANNEL DEPTHS = 5.0, OUTPUT FIELD = VAL5CW\
+> #-----------------------------------------------------------\
+> END LIST:\
+> #===================================
+
+Each keyword within the list specifies an output data field. These are generally attributes recognized by the program and will trigger a call to specific subroutines for calculating the attribute values. If the keyword is not recognized by the program, the data field will be created, but filled with nodata values. A full description of the data-field options available is provided in @sec-attributeList.
+
+### Equations
+
+A data field specified in an attribute list may be defined by an equation using other data fields in the attribute list. Equations are of the form:
+
+$$
+y = \beta_0 + \beta_1x_{1.1}^{e_{1.1}}x_{1.2}^{e_{1.2}}... + \beta_2x_{2.1}^{e_{2.1}}x_{2.2}^{e_{2.2}}...
+$$
+
+Here, the $\beta_i$ and $e_{i.j}$ are empirical coefficients and the $x_{i.j}$ are data-field variables included elsewhere the attribute list. A data-field entry is flagged as an equation by the "EQUATION" argument. The next line(s) specify the constant term $\beta_0$ with the CONSTANT keyword and each $\beta_ix_{i.j}^{e_{i.j}}$ term with the TERM keyword. The equation entries are terminated by the END EQUATION keyword. Here is an example:
+
+> #==================================\
+> ATTRIBUTE LIST:\
+> #----------------------------------------------------------\
+> CONTRIBUTIND AREA: OUTPUT FIELD = AreaSQKM\
+> MEAN ANNUAL PRECIP: FILE = c:\\prism\\prism_utm10n, OUTPUT FIELD = MnAnPrcM \# mean annual precipitation in meters depth\
+> MEAN ANNUAL FLOW: OUTPUT FIELD = MeanAnnCMS, EQUATION \# mean annual flow in cubic meters per second\
+> TERM: FIELD = AREA_SQKM, COEF = 0.014545, EXPONENT = 0.99, FIELD = MNANPRC_M, EXPONENT = 1.593\
+> END EQUATION:\
+> #--------------------------------------------------------\
+> END LIST:\
+> #===================================
+
+In this case, the attribute for mean annual flow (*MeanAnnCMS*) is defined by the equation
+
+$$
+MeanAnnCMS = 0.01454(AreaSQKM^{0.99})(MnAnPrcM^{1.593})
+$$
+
+where *AreaSQKM* is contributing area and *MnAnPrcM* is mean annual precipitation. If there were a constant term $(\beta_0)$, it would be specified by a line with keyword "CONSTANT:" followed by an argument with the value. If there were additional $\beta_ix_{i.j}^{e_{i.j}}$ terms, these would be specified by additional lines with a "TERM:" keyword. This format allows specification of a large variety of equation forms.
+
+### Raster lists
+
+Data-field attributes can also be calculated from analysis of raster files. For example, we can define a data field that gives the mean gradient or the proportion of the contributing area within each land-cover class over the contributing area to each node, if a gradient or land-cover raster are provided. These tasks are specified using a raster list, initiated with the "RASTER LIST:" keyword.
+
+## File Formats
+
+NetStream programs can read binary floating point (.flt) raster files. Uncompressed tiff (.tif) files, and tiff files with LZW compression, can also be read. Certain programs can read binary interleaved by line (.bil) raster files. Raster file names can be specified in the ascii input file without the extension. The programs will look first for an ".flt" file. If none is found, it will look for a ".tif" file.
+
+NetStream programs can read point, polyline, polylineZ, and polygon shapefiles. No extension is needed in the file name.
+
+NetStream programs can currently only write floating point binary (.flt) raster files and point, polyline, and polylineZ shapefiles.
+
+When other file formats are required, these files must be converted using other software.
