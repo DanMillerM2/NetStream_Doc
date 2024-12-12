@@ -12,7 +12,7 @@ Bldgrds creates a digital representation of a channel network; a "stream layer" 
 
 A variety of input files can be used to control placement of channels.
 
-[GMI raster]{.underline}. A "Geomorphic Index" raster (keyword GMI RASTER). These are used by the US Geological Survey to aid contractors building elevation-derived hydrography (see [New Developments in Elevation-Derived Hydrography Acquisition Specifications and Validation](https://nsgic.org/wp-content/uploads/2024/05/EDH-Guidance-and-Specifications-NSGIC-Feb-2024.pdf)). These prove useful for guiding channel courses in low-relief terrain. The NetStream program FlowCat can be used to build a GMI raster.
+[GMI raster]{.underline}. A "Geomorphic Index" raster (keyword GMI RASTER). These are used by the US Geological Survey to aid contractors building elevation-derived hydrography (see [New Developments in Elevation-Derived Hydrography Acquisition Specifications and Validation](https://nsgic.org/wp-content/uploads/2024/05/EDH-Guidance-and-Specifications-NSGIC-Feb-2024.pdf){target="_blank"}). These prove useful for guiding channel courses in low-relief terrain. The NetStream program FlowCat can be used to build a GMI raster.
 
 [Water mask]{.underline}. One or more water-mask polygon (or raster) files may be specified (keyword WATER MASK). A water mask delineates areas of open water along larger river channels and is provided as either a polygon shapefile or a raster with nonzero values indicating the mask. Lidar laser signals are largely absorbed by water, so zones of open water lack signal returns in the lidar point cloud. The DEM elevations through these zones are interpolated from signals along the edge of the channel or are set to a constant elevation by hydro-flattening. In either case, the DEM provides no guidance for channel courses through these zones and the traced channel centerlines can wonder back and forth within the zone. Where this occurs, measured channel length will be too long and calculated channel gradients will therefore be too small.
 
@@ -42,7 +42,9 @@ When using imagery to generate a water mask, it is important that the date of of
 
 Bldgrds will find the points of highest and lowest elevation along the digitized line and "excavate" a swale following the line from the high point to the low point. The modified DEM is then used for determining flow accumulation and resulting channel courses.
 
-[Channel mask]{.underline}. One or more polyline shapefiles may be specified for drainage enforcement (keyword CHANNEL MASK).
+[Channel mask]{.underline}. One or more polyline shapefiles may be specified for drainage enforcement (keyword CHANNEL MASK). Drainage enforcement is performed by excavating a swale into the DEM along the channel-mask line, a technique referred to as "stream burning". Keyword arguments specify the depth and width of the swale. Flow directions are then determined for the DEM with the burned-in swale. All elevation derivatives, however, such as channel gradient, are calculated using the original DEM, so if the enforced channel does not follow accurate channel flow paths on the DEM, for example, if it goes up the side of the valley wall, calculated channel attributes will be in error.
+
+Channel masks are useful for guiding channel locations through low-relief areas where the DEM topography provides little guidance or to force traced channels to match an existing stream layer.
 
 ## Output data files
 

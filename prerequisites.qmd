@@ -48,7 +48,7 @@ For programs that generate output GIS vector files, either point or polyline sha
 > ID:\
 > LENGTH:\
 > CONTRIBUTING AREA: OUTPUT FIELD = AREA_SQKM\
-> MEAN ANNUAL PRECIP: FILE = c:\work\data\wrangell\precip\_utm8n, OUTPUT FIELD = MNANPRC_M, UNITS = mm, REPLACE\
+> MEAN ANNUAL PRECIP: FILE = c:/work/data/wrangell/precip_utm8n, OUTPUT FIELD = MNANPRC_M, UNITS = mm, REPLACE\
 > VALLEY WIDTH: CHANNEL DEPTHS = 5.0, OUTPUT FIELD = VAL5CW\
 > #-----------------------------------------------------------\
 > END LIST:\
