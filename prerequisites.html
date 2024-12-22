@@ -308,7 +308,7 @@ window.Quarto = {
 <figcaption>Parsing of DEM cells based on the closest channel node.</figcaption>
 </figure>
 </div>
-<p>Use of a linked list of channel nodes and discretization of a watershed in terms of associated channel nodes provides an efficient data structure for routing of information across a watershed. The DEM-traced channel network is the framework on which this structure is built, reflected in the name NetStream. The first step for almost all NetStream analyses is creation of that channel network, performed by the program bldgrds. Subsequent programs can read the channel node list created by bldgrds to perform a variety of analyses and to write output shapefiles and raster files readable by a GIS. These programs are listed and described in <span class="quarto-unresolved-ref">?sec-programs</span>.</p>
+<p>Use of a linked list of channel nodes and discretization of a watershed in terms of associated channel nodes provides an efficient data structure for routing of information across a watershed. The DEM-traced channel network is the framework on which this structure is built, reflected in the name NetStream. The first step for almost all NetStream analyses is creation of that channel network, performed by the program bldgrds. Subsequent programs can read the channel node list created by bldgrds to perform a variety of analyses and to write output shapefiles and raster files readable by a GIS. These programs are listed and described starting with <a href="Bldgrds.html" class="quarto-xref"><span>1&nbsp; Bldgrds</span></a>.</p>
 </section>
 <section id="input-files" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="input-files">Input Files</h2>
@@ -374,7 +374,7 @@ ATTRIBUTE LIST:<br>
 ID:<br>
 LENGTH:<br>
 CONTRIBUTING AREA: OUTPUT FIELD = AREA_SQKM<br>
-MEAN ANNUAL PRECIP: FILE = c:/work/data/wrangell/precip_utm8n, OUTPUT FIELD = MNANPRC_M, UNITS = mm, REPLACE<br>
+MEAN ANNUAL PRECIP: FILE = c:/work/data/wrangell/precip_utm8n, OUTPUT FIELD = MNANPRC_M<br>
 VALLEY WIDTH: CHANNEL DEPTHS = 5.0, OUTPUT FIELD = VAL5CW<br>
 #———————————————————–<br>
 END LIST:<br>
@@ -396,7 +396,7 @@ ATTRIBUTE LIST:<br>
 CONTRIBUTIND AREA: OUTPUT FIELD = AreaSQKM<br>
 MEAN ANNUAL PRECIP: FILE = c:\prism\prism_utm10n, OUTPUT FIELD = MnAnPrcM # mean annual precipitation in meters depth<br>
 MEAN ANNUAL FLOW: OUTPUT FIELD = MeanAnnCMS, EQUATION # mean annual flow in cubic meters per second<br>
-TERM: FIELD = AREA_SQKM, COEF = 0.014545, EXPONENT = 0.99, FIELD = MNANPRC_M, EXPONENT = 1.593<br>
+TERM: FIELD = AREA_SQKM, COEF = 0.014, EXPONENT = 0.99, FIELD = MNANPRC_M, EXPONENT = 1.59<br>
 END EQUATION:<br>
 #——————————————————–<br>
 END LIST:<br>
