@@ -72,7 +72,7 @@ For programs that generate output GIS vector files, either point or polyline sha
 > ID:\
 > LENGTH:\
 > CONTRIBUTING AREA: OUTPUT FIELD = AREA_SQKM\
-> MEAN ANNUAL PRECIP: FILE = c:/work/data/wrangell/precip_utm8n, OUTPUT FIELD = MNANPRC_M, UNITS = mm, REPLACE\
+> MEAN ANNUAL PRECIP: FILE = c:/work/data/wrangell/precip_utm8n, OUTPUT FIELD = MNANPRC_M\
 > VALLEY WIDTH: CHANNEL DEPTHS = 5.0, OUTPUT FIELD = VAL5CW\
 > #-----------------------------------------------------------\
 > END LIST:\
@@ -96,7 +96,7 @@ Here, the $\beta_i$ and $e_{i.j}$ are empirical coefficients and the $x_{i.j}$ a
 > CONTRIBUTIND AREA: OUTPUT FIELD = AreaSQKM\
 > MEAN ANNUAL PRECIP: FILE = c:\\prism\\prism_utm10n, OUTPUT FIELD = MnAnPrcM \# mean annual precipitation in meters depth\
 > MEAN ANNUAL FLOW: OUTPUT FIELD = MeanAnnCMS, EQUATION \# mean annual flow in cubic meters per second\
-> TERM: FIELD = AREA_SQKM, COEF = 0.014545, EXPONENT = 0.99, FIELD = MNANPRC_M, EXPONENT = 1.593\
+> TERM: FIELD = AREA_SQKM, COEF = 0.014, EXPONENT = 0.99, FIELD = MNANPRC_M, EXPONENT = 1.59\
 > END EQUATION:\
 > #--------------------------------------------------------\
 > END LIST:\

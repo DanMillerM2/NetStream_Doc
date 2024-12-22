@@ -5,7 +5,7 @@ project:
 book:
   title: "NetStream: Programs for watershed analyses"
   author: "Daniel Miller"
-  date: "12/7/2024"
+  date: today
   
   page-footer:
     right: \
@@ -34,4 +34,7 @@ format:
     theme: cosmo
 
 editor: visual
+
+execute:
+  freeze: auto
 
