@@ -1,4 +1,4 @@
-# Programs
+# Programs {#sec-programs}
 
 The library includes the following primary programs (in alphabetical order):
 

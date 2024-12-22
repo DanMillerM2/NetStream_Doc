@@ -1,5 +1,29 @@
 # Prerequisites {.unnumbered}
 
+## Data structures
+
+When considering how to use these programs, it is helpful to understand how they store and use information. With that understanding, you will have an idea of how to phrase the questions you ask of the models implemented in these programs. The underlying conceptual model is that of a [virtual watershed](https://terrain-works.maps.arcgis.com/apps/Cascade/index.html?appid=585db8525f424d57a98f0fcac73b1d0b) [@barquin2015a]. A virtual watershed is a digital data structure that characterizes physical attributes (e.g., topography, land cover) over all points and establishes the pathways and processes by which those points are connected. A [Digital Elevation Model](https://en.wikipedia.org/wiki/Digital_elevation_model) (DEM) provides the spatial template and sets the spatial grain (the finest scale at which any attribute is resolved). A channel network traced from the DEM provides the spatial reference: all locations (DEM grid points or cells) are referenced in terms of their relationship to the channel network.
+
+The channel network is recorded digitally using a [linked-node-list](https://en.wikipedia.org/wiki/Linked_list) data structure. Channel courses traced from the DEM extend step-by-step from one DEM grid point to an adjacent point. Each DEM grid point defines a node along the channel course. Each node can reference the adjacent upstream and downstream nodes. Hence, flow paths can be followed both up- and down-stream throughout the DEM.
+
+![Channel nodes](images/channelNodes.png)
+
+Each channel node has an associated list of attributes with information about the point along the channel represented by that node. These attributes include basic information about the channel itself, such as elevation, gradient, and contributing area. They may include information about the contributing area, such as annual precipitation, land cover, and geology.
+
+Importantly, each DEM grid point, and its corresponding cell, is associated with one or more channel nodes. The associated node, or nodes, may be determined from the gravity-driven flow path as determined from the topography inferred from the DEM- the path that surface water flowing over the ground surface would follow from the DEM grid point to the channel. Each DEM grid point thus has an associated set of attributes relating it to the channel network, including flow distance to the channel it drains to and attributes of that channel, such as size, gradient, and sediment transport capacity.
+
+Likewise, each channel node has an associated channel-adjacent contributing area defined by those flow paths. These channel-adjacent areas extend outward from the node to each side of the channel, like wings. They are referred to as drainage wings.
+
+![Drainage wings for a portion of a headwater basin in the Sprague River watershed, in southern Oregon.](images/wings2.png){#wings}
+
+Drainage wings provide a unique [discretization](https://en.wikipedia.org/wiki/Discretization) of a watershed referenced to the channel network. Attributes of a wing can be assigned to its associated node, including basic measures such as its size and land cover. These attributes may include modeled values, such as estimates of the sediment and organic inputs a wing may provide to the channel. We can divide roads into segments based on intersections with the drainage wings, thus parsing a road network in terms of its potential connectivity with the channel network.
+
+Flow paths provide indicators of hydrologic connectivity, needed for characterizing processes involving movement of water and water-carried material through a watershed. Other types of processes may require other measures of connectivity, such as the Euclidean (straight line) distance from a DEM grid point to a channel.
+
+![Parsing of DEM cells based on the closest channel node.](images/closest.png){#closestNode}
+
+Use of a linked list of channel nodes and discretization of a watershed in terms of associated channel nodes provides an efficient data structure for routing of information across a watershed. The DEM-traced channel network is the framework on which this structure is built, reflected in the name NetStream. The first step for almost all NetStream analyses is creation of that channel network, performed by the program bldgrds. Subsequent programs can read the channel node list created by bldgrds to perform a variety of analyses and to write output shapefiles and raster files readable by a GIS. These programs are listed and described in @sec-programs.
+
 ## Input Files {.unnumbered}
 
 Programs in the NetStream suite all use ASCII (text) input files with a similar file structure and format. The input files specify any input and output file names and locations, specify the tasks to be performed, and provide any parameter values needed to perform those tasks.
@@ -98,4 +122,6 @@ NetStream programs can read point, polyline, polylineZ, and polygon shapefiles. 
 
 NetStream programs can currently only write floating point binary (.flt) raster files and point, polyline, and polylineZ shapefiles.
 
-When other file formats are required, these files must be converted using other software.
+When other file formats are required, these files must be converted, which any GIS can do, or using [GDAL](https://gdal.org/en/stable/index.html) (which can be called within python and R).
+
+## 

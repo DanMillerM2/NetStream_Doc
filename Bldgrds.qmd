@@ -4,17 +4,23 @@ Bldgrds creates a digital representation of a channel network; a "stream layer" 
 
 ## Input data files
 
-### Required
+### DEM raster
 
-[DEM raster]{.underline}. The primary and only required input file is a DEM, consisting of a raster of elevation values in either binary floating point (.flt) or tiff (.tif) format (only uncompressed or those with LZW compression can currently be read).
+The primary and only required input file is a DEM (keyword DEM FILE), consisting of a raster of elevation values in either binary floating point (.flt) or tiff (.tif) format (only uncompressed or those with LZW compression can currently be read). NetStream programs use a default DEM file name of elev_ID, where "ID" is a character string that identifies the dataset. It is copied from the DEM-file name and applied as a suffix to output data files created from the DEM.
 
-### Optional
+A variety of optional input files can be used to control placement of channels.
 
-A variety of input files can be used to control placement of channels.
+### GMI raster
 
-[GMI raster]{.underline}. A "Geomorphic Index" raster (keyword GMI RASTER). These are used by the US Geological Survey to aid contractors building elevation-derived hydrography (see [New Developments in Elevation-Derived Hydrography Acquisition Specifications and Validation](https://nsgic.org/wp-content/uploads/2024/05/EDH-Guidance-and-Specifications-NSGIC-Feb-2024.pdf){target="_blank"}). These prove useful for guiding channel courses in low-relief terrain. The NetStream program FlowCat can be used to build a GMI raster.
+A "Geomorphic Index" raster (keyword GMI RASTER). These are used by the US Geological Survey to aid contractors building elevation-derived hydrography (see [New Developments in Elevation-Derived Hydrography Acquisition Specifications and Validation](https://nsgic.org/wp-content/uploads/2024/05/EDH-Guidance-and-Specifications-NSGIC-Feb-2024.pdf){target="_blank"}). These prove useful for guiding channel courses in low-relief terrain. The NetStream program FlowCat can be used to build a GMI raster.
 
-[Water mask]{.underline}. One or more water-mask polygon (or raster) files may be specified (keyword WATER MASK). A water mask delineates areas of open water along larger river channels and is provided as either a polygon shapefile or a raster with nonzero values indicating the mask. Lidar laser signals are largely absorbed by water, so zones of open water lack signal returns in the lidar point cloud. The DEM elevations through these zones are interpolated from signals along the edge of the channel or are set to a constant elevation by hydro-flattening. In either case, the DEM provides no guidance for channel courses through these zones and the traced channel centerlines can wonder back and forth within the zone. Where this occurs, measured channel length will be too long and calculated channel gradients will therefore be too small.
+### Topographic Position Index (TPI)
+
+A topographic position index raster (keyword LOCAL RELIEF RASTER) can be used as a criteria for identifying channel initiation points and/or for guiding channel courses, similar to a GMI raster. The NetStream program makeGrids can be used to build a topographic position raster (also referred to as a local relief raster).
+
+### Water mask
+
+One or more water-mask polygon (or raster) files may be specified (keyword WATER MASK). A water mask delineates areas of open water along larger river channels and is provided as either a polygon shapefile or a raster with nonzero values indicating the mask. Lidar laser signals are largely absorbed by water, so zones of open water lack signal returns in the lidar point cloud. The DEM elevations through these zones are interpolated from signals along the edge of the channel or are set to a constant elevation by hydro-flattening. In either case, the DEM provides no guidance for channel courses through these zones and the traced channel centerlines can wonder back and forth within the zone. Where this occurs, measured channel length will be too long and calculated channel gradients will therefore be too small.
 
 ::: {layout-ncol="2"}
 ![The channel here has been hydroflattened in the DEM. The traced channels wonders back and forth between the channel edges.](images/noMask.png){#noMask}
@@ -32,7 +38,9 @@ With hydroflattened DEMs, it is possible to create a water mask from the DEM dir
 
 When using imagery to generate a water mask, it is important that the date of of the imagery matches the date of lidar acquisition because channel positions may change over time.
 
-[Road crossings]{.underline}. One or more polyline shapefiles can be specified for breaching high points in a DEM (keyword LINE EXCAVATE). With high-resolution DEMs, road prisms are resolved and can act to divert the traced flow paths. Culverts and other drainage structures are not generally visible in the DEM and need to be specified from other data sources. This is typically done by manually digitizing a line that crosses the road prism at known or inferred culvert locations.
+### Road crossings
+
+One or more polyline shapefiles can be specified for breaching high points in a DEM (keyword LINE EXCAVATE). With high-resolution DEMs, road prisms are resolved and can act to divert the traced flow paths. Culverts and other drainage structures are not generally visible in the DEM and need to be specified from other data sources. This is typically done by manually digitizing a line that crosses the road prism at known or inferred culvert locations.
 
 ::: {layout-ncol="2"}
 ![Traced channel flow paths without digitized road crossings.](images/noCrossings.png){#noCrossings}
@@ -42,12 +50,35 @@ When using imagery to generate a water mask, it is important that the date of of
 
 Bldgrds will find the points of highest and lowest elevation along the digitized line and "excavate" a swale following the line from the high point to the low point. The modified DEM is then used for determining flow accumulation and resulting channel courses.
 
-[Channel mask]{.underline}. One or more polyline shapefiles may be specified for drainage enforcement (keyword CHANNEL MASK). Drainage enforcement is performed by excavating a swale into the DEM along the channel-mask line, a technique referred to as "stream burning". Keyword arguments specify the depth and width of the swale. Flow directions are then determined for the DEM with the burned-in swale. All elevation derivatives, however, such as channel gradient, are calculated using the original DEM, so if the enforced channel does not follow accurate channel flow paths on the DEM, for example, if it goes up the side of the valley wall, calculated channel attributes will be in error.
+### Channel mask
+
+One or more polyline shapefiles may be specified for drainage enforcement (keyword CHANNEL MASK). Drainage enforcement can be performed in two ways
+
+1.   By excavating a swale into the DEM along the channel-mask line, a technique referred to as "stream burning". Keyword arguments specify the depth and width of the swale. Flow directions are then determined for the DEM with the burned-in swale. All elevation derivatives, however, such as channel gradient, are calculated using the original DEM, so if the enforced channel does not follow accurate channel flow paths on the DEM, for example, if it goes up the side of the valley wall, calculated channel attributes will be in error.
+
+2.  By setting flow directions to explicitly follow the channel mask line. This over rides flow directions based on elevation relationships in the DEM. Up- and down-stream flow directions are based on the order in which the vertices along the channel mask line occur, so all lines must be digitized in a consistent direction, either all upstream or all downstream. This directional enforcement is triggered with the argument DIRECTIONAL. The default digitization direction assumed is downstream. If digitization is upstream, then the argument UPSTREAM is required.
+
+A combination of both burning in and directional enforcement can be used. In that case, the flow directions are set by the digitized line and the depth and width of the swale determine the distance overwhich flow is directed towards the enforced channel.
 
 Channel masks are useful for guiding channel locations through low-relief areas where the DEM topography provides little guidance or to force traced channels to match an existing stream layer.
 
 ## Output data files
 
+[Linked-node list]{.underline}. A binary file that stores the traced channel network in a linked-node data structure. The file is named nodeNet_ID.dat, where the "ID" is the character string taken from the DEM file name (elev_ID). An ascii log file (nodeNet_ID.log) is also created which provides information about how and when the data file was created.
+
+[Flow accumulation raster]{.underline}. A binary floating point raster file giving the contributing area to each DEM cell in number of inflowing cells. The file is named accum_ID.flt, with accompanying ascii header (accum_ID.hdr) and log (accum_ID.log) files.
+
+[Flow direction raster]{.underline}. A binary floating point raster file giving the flow direction for each DEM grid point in radians measured from north. The file is named ang_ID.flt, with accompanying ascii header (ang_ID.hdr) and log (ang_ID.log) files.
+
 ## Keyword: arguments
 
-Anything else?
+### Keywords specifying input files
+
+DEM FILE: filename \# required
+
+GMI RASTER: filename, DIG = x, INIT, MIN GMI = i \# optional, Geomorphic Index Raster. The "DIG" argument triggers a type of drainage enforcement along GMI patches, with "x" indicating a value in meters. The value of a GMI-raster pixel indicates the number of topographic indices indicative of a channel at the location of that pixel. These values typically range from zero up to four, because four topographic indices are typically used to generate a GMI raster. Where GMI cells have a value greater than zero, the DEM elevation is lowered by the value GMI\*x. So if x = 0.5 and GMI = 4, the elevation at that DEM cell is lowered 2 meters. If DIG = 0. or no DIG argument is included, then no drainage enforcement is performed with the GMI raster.\
+If the MIN GMI argument is present, it limits channel initiation to pixels where the GMI value is greater than or equal to the specified value. MIN GMI = 2 will limit channel initiation to locations where the GMI value is $\geq$ 2.
+
+SCRATCH DIRECTORY: directory path \# required, used for writing temporary files to disk
+
+More to come.
