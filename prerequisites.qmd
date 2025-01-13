@@ -22,7 +22,7 @@ Flow paths provide indicators of hydrologic connectivity, needed for characteriz
 
 ![Parsing of DEM cells based on the closest channel node.](images/closest.png){#closestNode}
 
-Use of a linked list of channel nodes and discretization of a watershed in terms of associated channel nodes provides an efficient data structure for routing of information across a watershed. The DEM-traced channel network is the framework on which this structure is built, reflected in the name NetStream. The first step for almost all NetStream analyses is creation of that channel network, performed by the program bldgrds. Subsequent programs can read the channel node list created by bldgrds to perform a variety of analyses and to write output shapefiles and raster files readable by a GIS. These programs are listed and described in @sec-programs.
+Use of a linked list of channel nodes and discretization of a watershed in terms of associated channel nodes provides an efficient data structure for routing of information across a watershed. The DEM-traced channel network is the framework on which this structure is built, reflected in the name NetStream. The first step for almost all NetStream analyses is creation of that channel network, performed by the program bldgrds. Subsequent programs can read the channel node list created by bldgrds to perform a variety of analyses and to write output shapefiles and raster files readable by a GIS. These programs are listed and described starting with @sec-bldgrds.
 
 ## Input Files {.unnumbered}
 

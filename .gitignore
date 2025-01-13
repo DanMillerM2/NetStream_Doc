@@ -5,3 +5,7 @@
 
 /.quarto/
 /_book/
+
+*.log
+*.tex
+*.toc

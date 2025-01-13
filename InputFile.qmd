@@ -1,5 +1,0 @@
----
-title: "Input Files"
----
-
-Programs in the Netstream suite all use ascii (text) input files with a similar file structure and format. The input files specify any input and output file names and locations, specify the tasks to be performed, and provide any parameter values needed to perform those tasks. They use a keyword: argument(s) format. The keyword indicates either what the following arguments are for or indicates a specific task or program option. Entries are identified as a keyword by the following colon (:), any needed arguments follow the keyword; multiple arguments are separated by commas; and if an argument specifies a numerical or logical parameter name, its value is specified after an equal sign. A pound sign (#) indicates a comment; any unrecognized entries are ignored (so if you misspell a keyword, it will be ignored). Examples follow.
