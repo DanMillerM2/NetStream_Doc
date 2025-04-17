@@ -62,7 +62,7 @@ Keywords and arguments are case sensitive.
 
 Each program has a specific set of keyword: argument pairs that it recognizes. I'll describe these in the chapters describing the programs.
 
-### Attribute lists
+### Attribute lists {#sec-attributeList}
 
 For programs that generate output GIS vector files, either point or polyline shapefiles, the data fields to include in the attribute table are specified with an attribute list. An attribute list is initialized with the "ATTRIBUTE LIST" keyword; the "END LIST" keyword flags the end of the list. Here's an example:
 
@@ -78,9 +78,9 @@ For programs that generate output GIS vector files, either point or polyline sha
 > END LIST:\
 > #===================================
 
-Each keyword within the list specifies an output data field. These are generally attributes recognized by the program and will trigger a call to specific subroutines for calculating the attribute values. If the keyword is not recognized by the program, the data field will be created, but filled with nodata values. A full description of the data-field options available is provided in @sec-attributeList.
+Each keyword within the list specifies an output data field. These are generally attributes recognized by the program and will trigger a call to specific subroutines for calculating the attribute values. If the keyword is not recognized by the program, the data field will be created, but filled with nodata values. A full description of the data-field options available is provided in @sec-attributeListChapter.
 
-### Equations
+### Equations {#sec-equations}
 
 A data field specified in an attribute list may be defined by an equation using other data fields in the attribute list. Equations are of the form:
 

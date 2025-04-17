@@ -1,6 +1,20 @@
 # Bldgrds {#sec-bldgrds}
 
-Bldgrds creates a digital representation of a channel network; a "stream layer" in GIS terminology. The steps for doing that are described in @sec-buildStreamLayer. The primary input is a Digital Elevation Model (DEM). Bldgrds can utilize a variety of auxiliary input files to control where channels may and may not occur and to direct channel courses (e.g., drainage enforcement to another existing stream layer).
+Bldgrds creates a digital representation of a channel network; a "stream layer" in GIS terminology. The steps for doing that are described in @sec-buildStreamLayer. The primary input is a Digital Elevation Model (DEM). Bldgrds can utilize a variety of auxiliary input files to control where channels may and may not occur and to direct channel courses (e.g., drainage enforcement to another existing stream layer). To build the channel network, bldgrds will modify elevations within the DEM, for example, to carve an outlet from a closed depression. These altered elevations are used to define flow directions. All subsequent analyses, finding hillslope and channel gradients for example, are based on the original DEM elevations.
+
+## Run-time options
+
+Bldgrds can be run in three ways, controlled by the presence or absence of certain keywords in the input file.
+
+1.  **Calibrate**. With the CALIBRATE keyword (no arguments), bldgrds will calculate flow directions and flow accumulation without initiating any channels. The D-infinity flow-direction algorithm is used for all DEM cells. Flow-direction and flow-accumulation rasters are produced. Two additional output files are also created:
+
+    a.  areathreshold_ID.csv. This is a comma delimited file. There are a series of eight header lines with details about the parameters used for the bldgrds run. These are: i) the path to the DEM and other input data files, ii) the dataset ID, iii) whether or not specific contributing area (area divided by the contour length crossed by flow exiting a DEM cell) was used, iv) Smin, the gradient limit below which DEM cells are classified as low-gradient terrain, v) Smax, the gradient limit above which DEM cells are classified as high-gradient terrain, vi) alpha, the exponent used for slope with the area-slope function for channel initiation, vii) Accumulation length scale, diameter in meters overwhich slope aspect is measured, and viii) Gradient length scale, the diameter in meters over which hillslope gradient is measured. Following the header lines are two columns, one for the area-slope function value and one for the channel density obtained (km/km^2^) using that area-slope value as the threshold for channel initiation. Units for the AREA column depend on whether or not specific area was used. If it was, the units are meters, if not, the units are square meters. The values for high-gradient areas are listed first, followed by the values for low-gradient areas. These entries are used to plot the log-log plots of threshold value versus channel density, used to find ball-park values for area-slope thresholds for channel initiation.
+
+    b.  threshold_ID.flt. A binary floating point raster indicating the area-slope threshold required to allow channel initiation at each DEM cell. This can be plotted in a GIS to see how far upslope different threshold values extend.
+
+2.  **No Channels**. Initiated with the NO CHANNELS keyword. This is similar to a calibration run, in that no channels are initiated, but the two threshold output files are not created.
+
+3.  If neither of the CALIBRATE or NO CHANNELS keywords are included in the input file, bldgrds will create a channel network with the associated output files.
 
 ## Input data files
 
@@ -10,7 +24,7 @@ The primary and only required input file is a DEM (keyword DEM FILE), consisting
 
 A variety of optional input files can be used to control placement of channels.
 
-### GMI raster
+### GMI or Flow-Indicator raster
 
 A "Geomorphic Index" raster (keyword GMI RASTER). These are used by the US Geological Survey to aid contractors building elevation-derived hydrography (see [New Developments in Elevation-Derived Hydrography Acquisition Specifications and Validation](https://nsgic.org/wp-content/uploads/2024/05/EDH-Guidance-and-Specifications-NSGIC-Feb-2024.pdf){target="_blank"}). These prove useful for guiding channel courses in low-relief terrain. The NetStream program FlowCat can be used to build a GMI raster.
 
@@ -20,33 +34,11 @@ A topographic position index raster (keyword LOCAL RELIEF RASTER) can be used as
 
 ### Water mask
 
-One or more water-mask files may be specified (keyword WATER MASK). A water mask delineates areas of open water along larger river channels and is provided as either a polygon shapefile or a raster with nonzero values indicating the mask. Lidar laser signals are largely absorbed by water, so zones of open water lack signal returns in the lidar point cloud. The DEM elevations through these zones are interpolated from signals along the edge of the channel or are set to a constant elevation by hydro-flattening. In either case, the DEM provides no guidance for channel courses through these zones and the traced channel centerlines can wonder back and forth within the zone. Where this occurs, measured channel length will be too long and calculated channel gradients will therefore be too small.
-
-::: {layout-ncol="2"}
-![The channel here has been hydroflattened in the DEM. The traced channels wonders back and forth between the channel edges.](images/noMask.png){#noMask}
-
-![With a water mask, the traced channel is constrained to flow through the center of the mask polygon.](images/withMask.png){#withMask}
-:::
-
-With hydroflattened DEMs, it is possible to create a water mask from the DEM directly. In this case, the water-mask polygon was made using the infrared band of NAIP imagery with the NetStream program waterMaskByTopo, which uses image segmentation of the infrared band combined with topographic filters.
-
-::: {layout-ncol="2"}
-![Natural color NAIP imagery.](images/NaturalColor.png){#naturalColor}
-
-![Infrared band.](images/Infrared.png){#infrared}
-:::
-
-When using imagery to generate a water mask, it is important that the date of of the imagery matches the date of lidar acquisition because channel positions may change over time.
+One or more water-mask files may be specified (keyword WATER MASK). A water mask delineates areas of open water along larger river channels and water bodies and is provided as either a polygon shapefile or a raster with nonzero values indicating the mask. Lidar laser signals are largely absorbed by water, so zones of open water lack signal returns in the lidar point cloud. The DEM elevations through these zones are interpolated from signals along the edge of the channel or are set to a constant elevation by hydro-flattening. In either case, the DEM provides no guidance for channel courses through these zones and the traced channel centerlines can wonder back and forth within the zone, as described in @sec-watermask. Where this occurs, measured channel length will be too long and calculated channel gradients will therefore be too small.
 
 ### Road crossings
 
-One or more polyline shapefiles can be specified for breaching high points in a DEM (keyword LINE EXCAVATE). With high-resolution DEMs, road prisms are resolved and can act to divert the traced flow paths. Culverts and other drainage structures are not generally visible in the DEM and need to be specified from other data sources. This is typically done by manually digitizing a line that crosses the road prism at known or inferred culvert locations.
-
-::: {layout-ncol="2"}
-![Traced channel flow paths without digitized road crossings.](images/noCrossings.png){#noCrossings}
-
-![Traced channel flow paths with digitized road crossings.](images/withCrossings.png){#withCrossings}
-:::
+One or more polyline shapefiles can be specified for breaching high points in a DEM (keyword LINE EXCAVATE). With high-resolution DEMs, road prisms are resolved and can act to divert the traced flow paths. Culverts and other drainage structures are not generally visible in the DEM and need to be specified from other data sources. This is typically done by manually digitizing a line that crosses the road prism at known or inferred culvert locations, as described in @sec-flowDiversions.
 
 Bldgrds will find the points of highest and lowest elevation along the digitized line and "excavate" a swale following the line from the high point to the low point. The modified DEM is then used for determining flow accumulation and resulting channel courses.
 
@@ -70,13 +62,15 @@ Channel masks are useful for guiding channel locations through low-relief areas 
 
 [Flow direction raster]{.underline}. A binary floating point raster file giving the flow direction for each DEM grid point in radians measured from north. The file is named ang_ID.flt, with accompanying ascii header (ang_ID.hdr) and log (ang_ID.log) files.
 
-## Keyword: arguments
+## Keyword: arguments for input files
 
-### Keywords specifying input files
+### DEM File
 
 DEM FILE: Filename \# required.
 
 -   Filename specifies either a binary floating point raster (.flt) or tiff (.tif) file (only uncompressed tiff files or those with LZW compression can currently be read). DEM files are named elev_ID, where the "ID" is a character string indicating the data set. The file extention does not need to be included, but the entire path is required (e.g., c:\\data\\wrangell\\elev_wrangell).
+
+### GMI Raster
 
 GMI RASTER: Filename, DIG = x, INIT, MIN GMI = i \# optional. Geomorphic Index Raster.
 
@@ -86,16 +80,48 @@ GMI RASTER: Filename, DIG = x, INIT, MIN GMI = i \# optional. Geomorphic Index R
 
 -   MIN GMI, if present, limits channel initiation to pixels where the GMI value is greater than or equal to the specified value. MIN GMI = 2 will limit channel initiation to locations where the GMI value is $\geq$ 2. If no MIN GMI argument is included, channel initiation can occur anywhere the channel-initiation criteria are met.
 
-SCRATCH DIRECTORY: directory path \# required. Location for writing temporary files to disk, e.g., c:\\temp.
+[SCRATCH DIRECTORY]{.underline}: directory path \# required. Location for writing temporary files to disk, e.g., c:\\temp.
 
-WATERMASK FILE: FILE=filename, MINIMUM PATCH SIZE = x, MINIMUM GRADIENT = x, RADIUS = x, MINIMUM WIDTH = x, INCISE = x, PRECLUDE INITIATION, ALLOW INITIATION, FORCE INITIATION, SET TO MINIMUM ELEVATION, LOWER ELEVATION, INCISE TO CENTER
+[WATER MASK]{.underline}: FILE=filename, MINIMUM PATCH SIZE = x, MINIMUM GRADIENT = x, RADIUS = x, MINIMUM WIDTH = x, INCISE = x, PRECLUDE INITIATION, ALLOW INITIATION, FORCE INITIATION, SET TO MINIMUM ELEVATION, LOWER ELEVATION, INCISE TO CENTER
 
 -   FILE = filename, full path and name of either a polygon shapefile or a raster file indicating a water mask. If a polygon file, all polygons are interpreted as part of the mask. If a raster file, any pixel with value greater than zero is interpreted as part of the mask.
 
--   MINIMUM PATCH SIZE = x, MINIMUM GRADIENT = x. These influence the size of the masked zones that get interpreted as a water mask. Optimal values need to be determined by trial and error because they vary depending on the shape and complexity of the masks. Default values are set to MINIMUM PATCH SIZE = 250. and MINIMUM GRADIENT = 0.75.
+-   MINIMUM PATCH SIZE = x, MINIMUM GRADIENT = x. These influence the size of the masked zones that get interpreted as a water mask. Optimal values need to be determined by trial and error because they vary depending on the shape and complexity of the masks. Default values are set to MINIMUM PATCH SIZE = 250. and MINIMUM GRADIENT = 0.75. These will work well for most cases.
 
--   RADIUS = x, limits the width of water-mask patches that can be resolved. Larger values cause longer run times, but the radius must be at least half as large as the largest width of any water-mask patch within the dataset, otherwise the traced channel centerlines will not follow the center of the mask.
+-   RADIUS = x, limits the width of water-mask patches that can be resolved. Larger values cause longer run times, but the radius must be at least half as large as the largest width of any river or water body within the dataset, otherwise the traced channel centerlines will not follow the center of the mask.
 
--   RADIUS = x
+-   MINIMUM WIDTH = x, water mask patches with a along-flow-direction width less than x are ignored, with x in meters.
 
-More to come.
+-   PRECLUDE INITIATION. If this argument is included, channel initiation is not allowed within the water mask.
+
+-   ALLOW INITIATION. If this argument is included, channel initiation is allowed, but not required, within the water mask.
+
+-   FORCE INITIATION. If this argument is included, channel initiation is forced so that all water-mask centerlines are included in the channel network.
+
+-   SET TO MINIMUM ELEVATION. This argument will cause all elevations within the watermask to be set to the minimum elevation found within the mask. This is appropriate for water bodies, which (typically) have a constant water-surface elevation. This is not generally used for river water masks.
+
+-   INCISE TO CENTER. This argument is used to force traced channel flow paths to the center of the water mask polygons.
+
+-   Multiple water-mask files may be specified, each with its own set of arguments. For example, separate water masks might be used for rivers and for water bodies, or for small rivers, for which a small radius can be specified (with a shorter run time) and large rivers, such as at river mouths at estuaries, for which a large radius may be required (with a longer run time).
+
+CHANNEL MASK: FILE=filename, DIG = x, RADIUS = x, MAX SLOPE = x, INIT, FORCE INITIATION, DIRECTIONAL, UPSTREAM, TOP POINT, POINT RADIUS
+
+-   FILE = filename, full path and name of a polyline shapefile.
+
+-   DIG = x, the depth in meters to excavate the channel-enforcement swale.
+
+-   RADIUS = x, the width of the swale in meters measured from the channel centerline. The total swale width will be twice the radius. The DIG and RADIUS arguments determine the size of the swale. Flow directions within the swale will be directed toward the center of the swale.
+
+-   MAX SLOPE = x, channel enforcement is not performed where the slope gradient exceeds this value. This can be used to prevent poorly located enforcement lines from extending onto channel-adjacent hillslopes.
+
+-   INIT, if this argument is included, channel initiation is allowed along enforced channels if all channel-initiation criteria are met.
+
+-   FORCE INITIATION, if this argument is included, channel initiation is forced within enforced channels, even if the channel-initiation criteria are not met.
+
+-   DIRECTIONAL, this argument indicates that the channel-mask polylines are digitized consistently in either a downstream or upstream direction. It then forces the flow directions to follow the digitized line. The default direction is downstream. If the polylines are digitized in an upstream direction, then the UPSTREAM argument must also be included.
+
+-   UPSTREAM, this argument indicates that the channel-mask polylines are digitized in an upstream direction. This argument is only required if the DIRECTIONAL argument.
+
+-   TOP POINT, if this argument is present, the enforcement lines are traced to their upstream end and a channel initiation point placed at the most likely initiation location within the radius (in meters) specified by the POINT RADIUS argument. The channels are not enforced downstream of that point.
+
+-   POINT RADIUS, the radius (meters) overwhich to search for the most likely channel initiation point at the upstream end of channel-enforcement lines.
