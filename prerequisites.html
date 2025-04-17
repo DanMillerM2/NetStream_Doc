@@ -250,8 +250,8 @@ window.Quarto = {
   <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files">Input Files</a>
   <ul class="collapse">
   <li><a href="#keywords-and-arguments" id="toc-keywords-and-arguments" class="nav-link" data-scroll-target="#keywords-and-arguments">Keywords and arguments</a></li>
-  <li><a href="#attribute-lists" id="toc-attribute-lists" class="nav-link" data-scroll-target="#attribute-lists">Attribute lists</a></li>
-  <li><a href="#equations" id="toc-equations" class="nav-link" data-scroll-target="#equations">Equations</a></li>
+  <li><a href="#sec-attributeList" id="toc-sec-attributeList" class="nav-link" data-scroll-target="#sec-attributeList">Attribute lists</a></li>
+  <li><a href="#sec-equations" id="toc-sec-equations" class="nav-link" data-scroll-target="#sec-equations">Equations</a></li>
   <li><a href="#raster-lists" id="toc-raster-lists" class="nav-link" data-scroll-target="#raster-lists">Raster lists</a></li>
   </ul></li>
   <li><a href="#file-formats" id="toc-file-formats" class="nav-link" data-scroll-target="#file-formats">File Formats</a></li>
@@ -364,8 +364,8 @@ Important
 </div>
 <p>Each program has a specific set of keyword: argument pairs that it recognizes. I’ll describe these in the chapters describing the programs.</p>
 </section>
-<section id="attribute-lists" class="level3">
-<h3 class="anchored" data-anchor-id="attribute-lists">Attribute lists</h3>
+<section id="sec-attributeList" class="level3">
+<h3 class="anchored" data-anchor-id="sec-attributeList">Attribute lists</h3>
 <p>For programs that generate output GIS vector files, either point or polyline shapefiles, the data fields to include in the attribute table are specified with an attribute list. An attribute list is initialized with the “ATTRIBUTE LIST” keyword; the “END LIST” keyword flags the end of the list. Here’s an example:</p>
 <blockquote class="blockquote">
 <p>#===================================<br>
@@ -382,8 +382,8 @@ END LIST:<br>
 </blockquote>
 <p>Each keyword within the list specifies an output data field. These are generally attributes recognized by the program and will trigger a call to specific subroutines for calculating the attribute values. If the keyword is not recognized by the program, the data field will be created, but filled with nodata values. A full description of the data-field options available is provided in <a href="attributeLists.html" class="quarto-xref"><span>2&nbsp; Attribute Lists</span></a>.</p>
 </section>
-<section id="equations" class="level3">
-<h3 class="anchored" data-anchor-id="equations">Equations</h3>
+<section id="sec-equations" class="level3">
+<h3 class="anchored" data-anchor-id="sec-equations">Equations</h3>
 <p>A data field specified in an attribute list may be defined by an equation using other data fields in the attribute list. Equations are of the form:</p>
 <p><span class="math display">\[
 y = \beta_0 + \beta_1x_{1.1}^{e_{1.1}}x_{1.2}^{e_{1.2}}... + \beta_2x_{2.1}^{e_{2.1}}x_{2.2}^{e_{2.2}}...

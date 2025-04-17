@@ -226,19 +226,21 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#input-data-files" id="toc-input-data-files" class="nav-link active" data-scroll-target="#input-data-files"><span class="header-section-number">1.1</span> Input data files</a>
+  <li><a href="#run-time-options" id="toc-run-time-options" class="nav-link active" data-scroll-target="#run-time-options"><span class="header-section-number">1.1</span> Run-time options</a></li>
+  <li><a href="#input-data-files" id="toc-input-data-files" class="nav-link" data-scroll-target="#input-data-files"><span class="header-section-number">1.2</span> Input data files</a>
   <ul class="collapse">
-  <li><a href="#dem-raster" id="toc-dem-raster" class="nav-link" data-scroll-target="#dem-raster"><span class="header-section-number">1.1.1</span> DEM raster</a></li>
-  <li><a href="#gmi-raster" id="toc-gmi-raster" class="nav-link" data-scroll-target="#gmi-raster"><span class="header-section-number">1.1.2</span> GMI raster</a></li>
-  <li><a href="#topographic-position-index-tpi" id="toc-topographic-position-index-tpi" class="nav-link" data-scroll-target="#topographic-position-index-tpi"><span class="header-section-number">1.1.3</span> Topographic Position Index (TPI)</a></li>
-  <li><a href="#water-mask" id="toc-water-mask" class="nav-link" data-scroll-target="#water-mask"><span class="header-section-number">1.1.4</span> Water mask</a></li>
-  <li><a href="#road-crossings" id="toc-road-crossings" class="nav-link" data-scroll-target="#road-crossings"><span class="header-section-number">1.1.5</span> Road crossings</a></li>
-  <li><a href="#channel-mask" id="toc-channel-mask" class="nav-link" data-scroll-target="#channel-mask"><span class="header-section-number">1.1.6</span> Channel mask</a></li>
+  <li><a href="#dem-raster" id="toc-dem-raster" class="nav-link" data-scroll-target="#dem-raster"><span class="header-section-number">1.2.1</span> DEM raster</a></li>
+  <li><a href="#gmi-or-flow-indicator-raster" id="toc-gmi-or-flow-indicator-raster" class="nav-link" data-scroll-target="#gmi-or-flow-indicator-raster"><span class="header-section-number">1.2.2</span> GMI or Flow-Indicator raster</a></li>
+  <li><a href="#topographic-position-index-tpi" id="toc-topographic-position-index-tpi" class="nav-link" data-scroll-target="#topographic-position-index-tpi"><span class="header-section-number">1.2.3</span> Topographic Position Index (TPI)</a></li>
+  <li><a href="#water-mask" id="toc-water-mask" class="nav-link" data-scroll-target="#water-mask"><span class="header-section-number">1.2.4</span> Water mask</a></li>
+  <li><a href="#road-crossings" id="toc-road-crossings" class="nav-link" data-scroll-target="#road-crossings"><span class="header-section-number">1.2.5</span> Road crossings</a></li>
+  <li><a href="#channel-mask" id="toc-channel-mask" class="nav-link" data-scroll-target="#channel-mask"><span class="header-section-number">1.2.6</span> Channel mask</a></li>
   </ul></li>
-  <li><a href="#output-data-files" id="toc-output-data-files" class="nav-link" data-scroll-target="#output-data-files"><span class="header-section-number">1.2</span> Output data files</a></li>
-  <li><a href="#keyword-arguments" id="toc-keyword-arguments" class="nav-link" data-scroll-target="#keyword-arguments"><span class="header-section-number">1.3</span> Keyword: arguments</a>
+  <li><a href="#output-data-files" id="toc-output-data-files" class="nav-link" data-scroll-target="#output-data-files"><span class="header-section-number">1.3</span> Output data files</a></li>
+  <li><a href="#keyword-arguments-for-input-files" id="toc-keyword-arguments-for-input-files" class="nav-link" data-scroll-target="#keyword-arguments-for-input-files"><span class="header-section-number">1.4</span> Keyword: arguments for input files</a>
   <ul class="collapse">
-  <li><a href="#keywords-specifying-input-files" id="toc-keywords-specifying-input-files" class="nav-link" data-scroll-target="#keywords-specifying-input-files"><span class="header-section-number">1.3.1</span> Keywords specifying input files</a></li>
+  <li><a href="#dem-file" id="toc-dem-file" class="nav-link" data-scroll-target="#dem-file"><span class="header-section-number">1.4.1</span> DEM File</a></li>
+  <li><a href="#gmi-raster" id="toc-gmi-raster" class="nav-link" data-scroll-target="#gmi-raster"><span class="header-section-number">1.4.2</span> GMI Raster</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -265,104 +267,46 @@ window.Quarto = {
 </header>
 
 
-<p>Bldgrds creates a digital representation of a channel network; a “stream layer” in GIS terminology. The steps for doing that are described in <a href="CreateStreamLayer.html" class="quarto-xref"><span>Chapter 3</span></a>. The primary input is a Digital Elevation Model (DEM), which consists of ground elevations specified over a regular grid of points. Bldgrds can utilize a variety of auxiliary input files to control where channels may and may not occur and to direct channel courses (e.g., drainage enforcement to another existing stream layer).</p>
-<section id="input-data-files" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="input-data-files"><span class="header-section-number">1.1</span> Input data files</h2>
-<section id="dem-raster" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="dem-raster"><span class="header-section-number">1.1.1</span> DEM raster</h3>
-<p>The primary and only required input file is a DEM (keyword DEM FILE), consisting of a raster of elevation values in either binary floating point (.flt) or tiff (.tif) format (only uncompressed or those with LZW compression can currently be read). NetStream programs use a default DEM file name of elev_ID, where “ID” is a character string that identifies the dataset. It is copied from the DEM-file name and applied as a suffix to output data files created from the DEM.</p>
+<p>Bldgrds creates a digital representation of a channel network; a “stream layer” in GIS terminology. The steps for doing that are described in <a href="CreateStreamLayer.html" class="quarto-xref"><span>Chapter 3</span></a>. The primary input is a Digital Elevation Model (DEM). Bldgrds can utilize a variety of auxiliary input files to control where channels may and may not occur and to direct channel courses (e.g., drainage enforcement to another existing stream layer). To build the channel network, bldgrds will modify elevations within the DEM, for example, to carve an outlet from a closed depression. These altered elevations are used to define flow directions. All subsequent analyses, finding hillslope and channel gradients for example, are based on the original DEM elevations.</p>
+<section id="run-time-options" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="run-time-options"><span class="header-section-number">1.1</span> Run-time options</h2>
+<p>Bldgrds can be run in three ways, controlled by the presence or absence of certain keywords in the input file.</p>
+<ol type="1">
+<li><p><strong>Calibrate</strong>. With the CALIBRATE keyword (no arguments), bldgrds will calculate flow directions and flow accumulation without initiating any channels. The D-infinity flow-direction algorithm is used for all DEM cells. Flow-direction and flow-accumulation rasters are produced. Two additional output files are also created:</p>
+<ol type="a">
+<li><p>areathreshold_ID.csv. This is a comma delimited file. There are a series of eight header lines with details about the parameters used for the bldgrds run. These are: i) the path to the DEM and other input data files, ii) the dataset ID, iii) whether or not specific contributing area (area divided by the contour length crossed by flow exiting a DEM cell) was used, iv) Smin, the gradient limit below which DEM cells are classified as low-gradient terrain, v) Smax, the gradient limit above which DEM cells are classified as high-gradient terrain, vi) alpha, the exponent used for slope with the area-slope function for channel initiation, vii) Accumulation length scale, diameter in meters overwhich slope aspect is measured, and viii) Gradient length scale, the diameter in meters over which hillslope gradient is measured. Following the header lines are two columns, one for the area-slope function value and one for the channel density obtained (km/km<sup>2</sup>) using that area-slope value as the threshold for channel initiation. Units for the AREA column depend on whether or not specific area was used. If it was, the units are meters, if not, the units are square meters. The values for high-gradient areas are listed first, followed by the values for low-gradient areas. These entries are used to plot the log-log plots of threshold value versus channel density, used to find ball-park values for area-slope thresholds for channel initiation.</p></li>
+<li><p>threshold_ID.flt. A binary floating point raster indicating the area-slope threshold required to allow channel initiation at each DEM cell. This can be plotted in a GIS to see how far upslope different threshold values extend.</p></li>
+</ol></li>
+<li><p><strong>No Channels</strong>. Initiated with the NO CHANNELS keyword. This is similar to a calibration run, in that no channels are initiated, but the two threshold output files are not created.</p></li>
+<li><p>If neither of the CALIBRATE or NO CHANNELS keywords are included in the input file, bldgrds will create a channel network with the associated output files.</p></li>
+</ol>
+</section>
+<section id="input-data-files" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="input-data-files"><span class="header-section-number">1.2</span> Input data files</h2>
+<section id="dem-raster" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="dem-raster"><span class="header-section-number">1.2.1</span> DEM raster</h3>
+<p>The primary and only required input file is a DEM (keyword DEM FILE), consisting of a raster of elevation values in either binary floating point (.flt) or tiff (.tif) format (only uncompressed tiff files or those with LZW compression can currently be read). NetStream programs use a default DEM file name of elev_ID, where “ID” is a character string that identifies the dataset. It is copied from the DEM-file name and applied as a suffix to output data files created from the DEM.</p>
 <p>A variety of optional input files can be used to control placement of channels.</p>
 </section>
-<section id="gmi-raster" class="level3" data-number="1.1.2">
-<h3 data-number="1.1.2" class="anchored" data-anchor-id="gmi-raster"><span class="header-section-number">1.1.2</span> GMI raster</h3>
+<section id="gmi-or-flow-indicator-raster" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="gmi-or-flow-indicator-raster"><span class="header-section-number">1.2.2</span> GMI or Flow-Indicator raster</h3>
 <p>A “Geomorphic Index” raster (keyword GMI RASTER). These are used by the US Geological Survey to aid contractors building elevation-derived hydrography (see <a href="https://nsgic.org/wp-content/uploads/2024/05/EDH-Guidance-and-Specifications-NSGIC-Feb-2024.pdf" target="_blank">New Developments in Elevation-Derived Hydrography Acquisition Specifications and Validation</a>). These prove useful for guiding channel courses in low-relief terrain. The NetStream program FlowCat can be used to build a GMI raster.</p>
 </section>
-<section id="topographic-position-index-tpi" class="level3" data-number="1.1.3">
-<h3 data-number="1.1.3" class="anchored" data-anchor-id="topographic-position-index-tpi"><span class="header-section-number">1.1.3</span> Topographic Position Index (TPI)</h3>
+<section id="topographic-position-index-tpi" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="topographic-position-index-tpi"><span class="header-section-number">1.2.3</span> Topographic Position Index (TPI)</h3>
 <p>A topographic position index raster (keyword LOCAL RELIEF RASTER) can be used as a criteria for identifying channel initiation points and/or for guiding channel courses, similar to a GMI raster. The NetStream program makeGrids can be used to build a topographic position raster (also referred to as a local relief raster).</p>
 </section>
-<section id="water-mask" class="level3" data-number="1.1.4">
-<h3 data-number="1.1.4" class="anchored" data-anchor-id="water-mask"><span class="header-section-number">1.1.4</span> Water mask</h3>
-<p>One or more water-mask polygon (or raster) files may be specified (keyword WATER MASK). A water mask delineates areas of open water along larger river channels and is provided as either a polygon shapefile or a raster with nonzero values indicating the mask. Lidar laser signals are largely absorbed by water, so zones of open water lack signal returns in the lidar point cloud. The DEM elevations through these zones are interpolated from signals along the edge of the channel or are set to a constant elevation by hydro-flattening. In either case, the DEM provides no guidance for channel courses through these zones and the traced channel centerlines can wonder back and forth within the zone. Where this occurs, measured channel length will be too long and calculated channel gradients will therefore be too small.</p>
-<div>
-
-</div>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="noMask" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="images/noMask.png" class="img-fluid figure-img"></p>
-<figcaption>The channel here has been hydroflattened in the DEM. The traced channels wonders back and forth between the channel edges.</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="withMask" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="images/withMask.png" class="img-fluid figure-img"></p>
-<figcaption>With a water mask, the traced channel is constrained to flow through the center of the mask polygon.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<p>With hydroflattened DEMs, it is possible to create a water mask from the DEM directly. In this case, the water-mask polygon was made using the infrared band of NAIP imagery with the NetStream program waterMaskByTopo, which uses image segmentation of the infrared band combined with topographic filters.</p>
-<div>
-
-</div>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="naturalColor" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="images/NaturalColor.png" class="img-fluid figure-img"></p>
-<figcaption>Natural color NAIP imagery.</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="infrared" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="images/Infrared.png" class="img-fluid figure-img"></p>
-<figcaption>Infrared band.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<p>When using imagery to generate a water mask, it is important that the date of of the imagery matches the date of lidar acquisition because channel positions may change over time.</p>
+<section id="water-mask" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="water-mask"><span class="header-section-number">1.2.4</span> Water mask</h3>
+<p>One or more water-mask files may be specified (keyword WATER MASK). A water mask delineates areas of open water along larger river channels and water bodies and is provided as either a polygon shapefile or a raster with nonzero values indicating the mask. Lidar laser signals are largely absorbed by water, so zones of open water lack signal returns in the lidar point cloud. The DEM elevations through these zones are interpolated from signals along the edge of the channel or are set to a constant elevation by hydro-flattening. In either case, the DEM provides no guidance for channel courses through these zones and the traced channel centerlines can wonder back and forth within the zone, as described in <a href="CreateStreamLayer.html#sec-watermask" class="quarto-xref"><span>Section 3.4.2</span></a>. Where this occurs, measured channel length will be too long and calculated channel gradients will therefore be too small.</p>
 </section>
-<section id="road-crossings" class="level3" data-number="1.1.5">
-<h3 data-number="1.1.5" class="anchored" data-anchor-id="road-crossings"><span class="header-section-number">1.1.5</span> Road crossings</h3>
-<p>One or more polyline shapefiles can be specified for breaching high points in a DEM (keyword LINE EXCAVATE). With high-resolution DEMs, road prisms are resolved and can act to divert the traced flow paths. Culverts and other drainage structures are not generally visible in the DEM and need to be specified from other data sources. This is typically done by manually digitizing a line that crosses the road prism at known or inferred culvert locations.</p>
-<div>
-
-</div>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="noCrossings" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="images/noCrossings.png" class="img-fluid figure-img"></p>
-<figcaption>Traced channel flow paths without digitized road crossings.</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="withCrossings" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="images/withCrossings.png" class="img-fluid figure-img"></p>
-<figcaption>Traced channel flow paths with digitized road crossings.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
+<section id="road-crossings" class="level3" data-number="1.2.5">
+<h3 data-number="1.2.5" class="anchored" data-anchor-id="road-crossings"><span class="header-section-number">1.2.5</span> Road crossings</h3>
+<p>One or more polyline shapefiles can be specified for breaching high points in a DEM (keyword LINE EXCAVATE). With high-resolution DEMs, road prisms are resolved and can act to divert the traced flow paths. Culverts and other drainage structures are not generally visible in the DEM and need to be specified from other data sources. This is typically done by manually digitizing a line that crosses the road prism at known or inferred culvert locations, as described in <a href="CreateStreamLayer.html#sec-flowDiversions" class="quarto-xref"><span>Section 3.5</span></a>.</p>
 <p>Bldgrds will find the points of highest and lowest elevation along the digitized line and “excavate” a swale following the line from the high point to the low point. The modified DEM is then used for determining flow accumulation and resulting channel courses.</p>
 </section>
-<section id="channel-mask" class="level3" data-number="1.1.6">
-<h3 data-number="1.1.6" class="anchored" data-anchor-id="channel-mask"><span class="header-section-number">1.1.6</span> Channel mask</h3>
+<section id="channel-mask" class="level3" data-number="1.2.6">
+<h3 data-number="1.2.6" class="anchored" data-anchor-id="channel-mask"><span class="header-section-number">1.2.6</span> Channel mask</h3>
 <p>One or more polyline shapefiles may be specified for drainage enforcement (keyword CHANNEL MASK). Drainage enforcement can be performed in two ways</p>
 <ol type="1">
 <li><p>By excavating a swale into the DEM along the channel-mask line, a technique referred to as “stream burning”. Keyword arguments specify the depth and width of the swale. Flow directions are then determined for the DEM with the burned-in swale. All elevation derivatives, however, such as channel gradient, are calculated using the original DEM, so if the enforced channel does not follow accurate channel flow paths on the DEM, for example, if it goes up the side of the valley wall, calculated channel attributes will be in error.</p></li>
@@ -372,21 +316,56 @@ window.Quarto = {
 <p>Channel masks are useful for guiding channel locations through low-relief areas where the DEM topography provides little guidance or to force traced channels to match an existing stream layer.</p>
 </section>
 </section>
-<section id="output-data-files" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="output-data-files"><span class="header-section-number">1.2</span> Output data files</h2>
+<section id="output-data-files" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="output-data-files"><span class="header-section-number">1.3</span> Output data files</h2>
 <p><u>Linked-node list</u>. A binary file that stores the traced channel network in a linked-node data structure. The file is named nodeNet_ID.dat, where the “ID” is the character string taken from the DEM file name (elev_ID). An ascii log file (nodeNet_ID.log) is also created which provides information about how and when the data file was created.</p>
 <p><u>Flow accumulation raster</u>. A binary floating point raster file giving the contributing area to each DEM cell in number of inflowing cells. The file is named accum_ID.flt, with accompanying ascii header (accum_ID.hdr) and log (accum_ID.log) files.</p>
 <p><u>Flow direction raster</u>. A binary floating point raster file giving the flow direction for each DEM grid point in radians measured from north. The file is named ang_ID.flt, with accompanying ascii header (ang_ID.hdr) and log (ang_ID.log) files.</p>
 </section>
-<section id="keyword-arguments" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="keyword-arguments"><span class="header-section-number">1.3</span> Keyword: arguments</h2>
-<section id="keywords-specifying-input-files" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="keywords-specifying-input-files"><span class="header-section-number">1.3.1</span> Keywords specifying input files</h3>
-<p>DEM FILE: filename # required</p>
-<p>GMI RASTER: filename, DIG = x, INIT, MIN GMI = i # optional, Geomorphic Index Raster. The “DIG” argument triggers a type of drainage enforcement along GMI patches, with “x” indicating a value in meters. The value of a GMI-raster pixel indicates the number of topographic indices indicative of a channel at the location of that pixel. These values typically range from zero up to four, because four topographic indices are typically used to generate a GMI raster. Where GMI cells have a value greater than zero, the DEM elevation is lowered by the value GMI*x. So if x = 0.5 and GMI = 4, the elevation at that DEM cell is lowered 2 meters. If DIG = 0. or no DIG argument is included, then no drainage enforcement is performed with the GMI raster.<br>
-If the MIN GMI argument is present, it limits channel initiation to pixels where the GMI value is greater than or equal to the specified value. MIN GMI = 2 will limit channel initiation to locations where the GMI value is <span class="math inline">\(\geq\)</span> 2.</p>
-<p>SCRATCH DIRECTORY: directory path # required, used for writing temporary files to disk</p>
-<p>More to come.</p>
+<section id="keyword-arguments-for-input-files" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="keyword-arguments-for-input-files"><span class="header-section-number">1.4</span> Keyword: arguments for input files</h2>
+<section id="dem-file" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="dem-file"><span class="header-section-number">1.4.1</span> DEM File</h3>
+<p>DEM FILE: Filename # required.</p>
+<ul>
+<li>Filename specifies either a binary floating point raster (.flt) or tiff (.tif) file (only uncompressed tiff files or those with LZW compression can currently be read). DEM files are named elev_ID, where the “ID” is a character string indicating the data set. The file extention does not need to be included, but the entire path is required (e.g., c:\data\wrangell\elev_wrangell).</li>
+</ul>
+</section>
+<section id="gmi-raster" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="gmi-raster"><span class="header-section-number">1.4.2</span> GMI Raster</h3>
+<p>GMI RASTER: Filename, DIG = x, INIT, MIN GMI = i # optional. Geomorphic Index Raster.</p>
+<ul>
+<li><p>Filename, either a .flt or .tif file, specified with the full path name. No default name.</p></li>
+<li><p>“DIG” triggers drainage enforcement along GMI patches, with “x” indicating a value in meters. The value of a GMI-raster pixel indicates the number of topographic indices indicative of a channel at the location of that pixel. These values typically range from zero up to four, because four topographic indices are typically used to generate a GMI raster. Where GMI cells have a value greater than zero, the DEM elevation is lowered by the value GMI*x. So if DIG = 0.5 is specified and GMI = 4, the elevation at that DEM cell is lowered 2 meters. If DIG = 0. or no DIG argument is included, then no drainage enforcement is performed with the GMI raster.</p></li>
+<li><p>MIN GMI, if present, limits channel initiation to pixels where the GMI value is greater than or equal to the specified value. MIN GMI = 2 will limit channel initiation to locations where the GMI value is <span class="math inline">\(\geq\)</span> 2. If no MIN GMI argument is included, channel initiation can occur anywhere the channel-initiation criteria are met.</p></li>
+</ul>
+<p><u>SCRATCH DIRECTORY</u>: directory path # required. Location for writing temporary files to disk, e.g., c:\temp.</p>
+<p><u>WATER MASK</u>: FILE=filename, MINIMUM PATCH SIZE = x, MINIMUM GRADIENT = x, RADIUS = x, MINIMUM WIDTH = x, INCISE = x, PRECLUDE INITIATION, ALLOW INITIATION, FORCE INITIATION, SET TO MINIMUM ELEVATION, LOWER ELEVATION, INCISE TO CENTER</p>
+<ul>
+<li><p>FILE = filename, full path and name of either a polygon shapefile or a raster file indicating a water mask. If a polygon file, all polygons are interpreted as part of the mask. If a raster file, any pixel with value greater than zero is interpreted as part of the mask.</p></li>
+<li><p>MINIMUM PATCH SIZE = x, MINIMUM GRADIENT = x. These influence the size of the masked zones that get interpreted as a water mask. Optimal values need to be determined by trial and error because they vary depending on the shape and complexity of the masks. Default values are set to MINIMUM PATCH SIZE = 250. and MINIMUM GRADIENT = 0.75. These will work well for most cases.</p></li>
+<li><p>RADIUS = x, limits the width of water-mask patches that can be resolved. Larger values cause longer run times, but the radius must be at least half as large as the largest width of any river or water body within the dataset, otherwise the traced channel centerlines will not follow the center of the mask.</p></li>
+<li><p>MINIMUM WIDTH = x, water mask patches with a along-flow-direction width less than x are ignored, with x in meters.</p></li>
+<li><p>PRECLUDE INITIATION. If this argument is included, channel initiation is not allowed within the water mask.</p></li>
+<li><p>ALLOW INITIATION. If this argument is included, channel initiation is allowed, but not required, within the water mask.</p></li>
+<li><p>FORCE INITIATION. If this argument is included, channel initiation is forced so that all water-mask centerlines are included in the channel network.</p></li>
+<li><p>SET TO MINIMUM ELEVATION. This argument will cause all elevations within the watermask to be set to the minimum elevation found within the mask. This is appropriate for water bodies, which (typically) have a constant water-surface elevation. This is not generally used for river water masks.</p></li>
+<li><p>INCISE TO CENTER. This argument is used to force traced channel flow paths to the center of the water mask polygons.</p></li>
+<li><p>Multiple water-mask files may be specified, each with its own set of arguments. For example, separate water masks might be used for rivers and for water bodies, or for small rivers, for which a small radius can be specified (with a shorter run time) and large rivers, such as at river mouths at estuaries, for which a large radius may be required (with a longer run time).</p></li>
+</ul>
+<p>CHANNEL MASK: FILE=filename, DIG = x, RADIUS = x, MAX SLOPE = x, INIT, FORCE INITIATION, DIRECTIONAL, UPSTREAM, TOP POINT, POINT RADIUS</p>
+<ul>
+<li><p>FILE = filename, full path and name of a polyline shapefile.</p></li>
+<li><p>DIG = x, the depth in meters to excavate the channel-enforcement swale.</p></li>
+<li><p>RADIUS = x, the width of the swale in meters measured from the channel centerline. The total swale width will be twice the radius. The DIG and RADIUS arguments determine the size of the swale. Flow directions within the swale will be directed toward the center of the swale.</p></li>
+<li><p>MAX SLOPE = x, channel enforcement is not performed where the slope gradient exceeds this value. This can be used to prevent poorly located enforcement lines from extending onto channel-adjacent hillslopes.</p></li>
+<li><p>INIT, if this argument is included, channel initiation is allowed along enforced channels if all channel-initiation criteria are met.</p></li>
+<li><p>FORCE INITIATION, if this argument is included, channel initiation is forced within enforced channels, even if the channel-initiation criteria are not met.</p></li>
+<li><p>DIRECTIONAL, this argument indicates that the channel-mask polylines are digitized consistently in either a downstream or upstream direction. It then forces the flow directions to follow the digitized line. The default direction is downstream. If the polylines are digitized in an upstream direction, then the UPSTREAM argument must also be included.</p></li>
+<li><p>UPSTREAM, this argument indicates that the channel-mask polylines are digitized in an upstream direction. This argument is only required if the DIRECTIONAL argument.</p></li>
+<li><p>TOP POINT, if this argument is present, the enforcement lines are traced to their upstream end and a channel initiation point placed at the most likely initiation location within the radius (in meters) specified by the POINT RADIUS argument. The channels are not enforced downstream of that point.</p></li>
+<li><p>POINT RADIUS, the radius (meters) overwhich to search for the most likely channel initiation point at the upstream end of channel-enforcement lines.</p></li>
+</ul>
 
 
 </section>
