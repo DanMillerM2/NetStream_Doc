@@ -1,6 +1,10 @@
 # Bldgrds {#sec-bldgrds}
 
-Bldgrds creates a digital representation of a channel network; a "stream layer" in GIS terminology. The steps for doing that are described in @sec-buildStreamLayer. The primary input is a Digital Elevation Model (DEM). Bldgrds can utilize a variety of auxiliary input files to control where channels may and may not occur and to direct channel courses (e.g., drainage enforcement to another existing stream layer). To build the channel network, bldgrds will modify elevations within the DEM, for example, to carve an outlet from a closed depression. These altered elevations are used to define flow directions. All subsequent analyses, finding hillslope and channel gradients for example, are based on the original DEM elevations.
+Bldgrds creates a digital representation of a channel network; a "stream layer" in GIS terminology. The steps for doing that are described in @sec-buildStreamLayer. The stream layer built by bldgrds is stored as a linked-node list in a binary data file (@sec-data_structures). Other Netstream programs read this data file to reconstruct the stream layer, perform requested analyses, and output GIS and other resulting data files.
+
+The primary input for Bldgrds is a Digital Elevation Model (DEM). Bldgrds can utilize a variety of auxiliary input files to control where channels may and may not occur and to direct channel courses (e.g., drainage enforcement to another existing stream layer).
+
+To build the channel network, bldgrds will modify elevations within the DEM, for example, to carve an outlet from a closed depression. These altered elevations are used to define flow directions. However, all subsequent analyses, finding hillslope and channel gradients for example, are based on the original DEM elevations.
 
 ## Run-time options
 
@@ -30,7 +34,7 @@ A "Geomorphic Index" raster (keyword GMI RASTER). These are used by the US Geolo
 
 ### Topographic Position Index (TPI)
 
-A topographic position index raster (keyword LOCAL RELIEF RASTER) can be used as a criteria for identifying channel initiation points and/or for guiding channel courses, similar to a GMI raster. The NetStream program makeGrids can be used to build a topographic position raster (also referred to as a local relief raster).
+A topographic position index raster (keyword LOCAL RELIEF RASTER) can be used as a criteria for identifying channel initiation points and/or for guiding channel courses, similar to a GMI raster. The NetStream program DEV can be used to build a topographic position raster (also referred to as a local relief raster).
 
 ### Water mask
 
@@ -56,11 +60,17 @@ Channel masks are useful for guiding channel locations through low-relief areas 
 
 ## Output data files
 
-[Linked-node list]{.underline}. A binary file that stores the traced channel network in a linked-node data structure. The file is named nodeNet_ID.dat, where the "ID" is the character string taken from the DEM file name (elev_ID). An ascii log file (nodeNet_ID.log) is also created which provides information about how and when the data file was created.
+### Linked-node list 
 
-[Flow accumulation raster]{.underline}. A binary floating point raster file giving the contributing area to each DEM cell in number of inflowing cells. The file is named accum_ID.flt, with accompanying ascii header (accum_ID.hdr) and log (accum_ID.log) files.
+A binary file that stores the traced channel network in a linked-node data structure. The file is named nodeNet_ID.dat, where the "ID" is the character string taken from the DEM file name (elev_ID). An ascii log file (nodeNet_ID.log) is also created which provides information about how and when the data file was created.
 
-[Flow direction raster]{.underline}. A binary floating point raster file giving the flow direction for each DEM grid point in radians measured from north. The file is named ang_ID.flt, with accompanying ascii header (ang_ID.hdr) and log (ang_ID.log) files.
+### Flow accumulation raster 
+
+A binary floating point raster file giving the contributing area to each DEM cell in number of inflowing cells. The file is named accum_ID.flt, with accompanying ascii header (accum_ID.hdr) and log (accum_ID.log) files.
+
+### Flow direction raster
+
+A binary floating point raster file giving the flow direction for each DEM grid point in radians measured from north. The file is named ang_ID.flt, with accompanying ascii header (ang_ID.hdr) and log (ang_ID.log) files.
 
 ## Keyword: arguments for input files
 
@@ -80,9 +90,9 @@ GMI RASTER: Filename, DIG = x, INIT, MIN GMI = i \# optional. Geomorphic Index R
 
 -   MIN GMI, if present, limits channel initiation to pixels where the GMI value is greater than or equal to the specified value. MIN GMI = 2 will limit channel initiation to locations where the GMI value is $\geq$ 2. If no MIN GMI argument is included, channel initiation can occur anywhere the channel-initiation criteria are met.
 
-[SCRATCH DIRECTORY]{.underline}: directory path \# required. Location for writing temporary files to disk, e.g., c:\\temp.
+### Water Mask
 
-[WATER MASK]{.underline}: FILE=filename, MINIMUM PATCH SIZE = x, MINIMUM GRADIENT = x, RADIUS = x, MINIMUM WIDTH = x, INCISE = x, PRECLUDE INITIATION, ALLOW INITIATION, FORCE INITIATION, SET TO MINIMUM ELEVATION, LOWER ELEVATION, INCISE TO CENTER
+WATER MASK: FILE=filename, MINIMUM PATCH SIZE = x, MINIMUM GRADIENT = x, RADIUS = x, MINIMUM WIDTH = x, INCISE = x, PRECLUDE INITIATION, ALLOW INITIATION, FORCE INITIATION, SET TO MINIMUM ELEVATION, LOWER ELEVATION, INCISE TO CENTER
 
 -   FILE = filename, full path and name of either a polygon shapefile or a raster file indicating a water mask. If a polygon file, all polygons are interpreted as part of the mask. If a raster file, any pixel with value greater than zero is interpreted as part of the mask.
 
@@ -103,6 +113,8 @@ GMI RASTER: Filename, DIG = x, INIT, MIN GMI = i \# optional. Geomorphic Index R
 -   INCISE TO CENTER. This argument is used to force traced channel flow paths to the center of the water mask polygons.
 
 -   Multiple water-mask files may be specified, each with its own set of arguments. For example, separate water masks might be used for rivers and for water bodies, or for small rivers, for which a small radius can be specified (with a shorter run time) and large rivers, such as at river mouths at estuaries, for which a large radius may be required (with a longer run time).
+
+### Channel Mask
 
 CHANNEL MASK: FILE=filename, DIG = x, RADIUS = x, MAX SLOPE = x, INIT, FORCE INITIATION, DIRECTIONAL, UPSTREAM, TOP POINT, POINT RADIUS
 
@@ -125,3 +137,5 @@ CHANNEL MASK: FILE=filename, DIG = x, RADIUS = x, MAX SLOPE = x, INIT, FORCE INI
 -   TOP POINT, if this argument is present, the enforcement lines are traced to their upstream end and a channel initiation point placed at the most likely initiation location within the radius (in meters) specified by the POINT RADIUS argument. The channels are not enforced downstream of that point.
 
 -   POINT RADIUS, the radius (meters) overwhich to search for the most likely channel initiation point at the upstream end of channel-enforcement lines.
+
+[SCRATCH DIRECTORY]{.underline}: directory path \# required. Location for writing temporary files to disk, e.g., c:\\temp.

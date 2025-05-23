@@ -1,6 +1,6 @@
 # Prerequisites {.unnumbered}
 
-## Data structures
+## Data structures {#data_structures}
 
 When considering how to use these programs, it is helpful to understand how they store and use information. With that understanding, you will have an idea of how to phrase the questions you ask of the models implemented in these programs. The underlying conceptual model is that of a [virtual watershed](https://terrain-works.maps.arcgis.com/apps/Cascade/index.html?appid=585db8525f424d57a98f0fcac73b1d0b) [@barquin2015a]. A virtual watershed is a digital data structure that characterizes physical attributes (e.g., topography, land cover) over all points and establishes the pathways and processes by which those points are connected. A [Digital Elevation Model](https://en.wikipedia.org/wiki/Digital_elevation_model) (DEM) provides the spatial template and sets the spatial grain (the finest scale at which any attribute is resolved). A channel network traced from the DEM provides the spatial reference: all locations (DEM grid points or cells) are referenced in terms of their relationship to the channel network.
 
